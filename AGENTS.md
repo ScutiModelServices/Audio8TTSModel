@@ -7,7 +7,7 @@ This file is the one instruction file for every coding agent; `CLAUDE.md` only i
 
 ## Rules
 - Follow the `model-service-parity` skill and `AI/ModelServices/SHARED-FEATURES.md` (what must match in every model service) and `AI/ModelServices/SERVICE-SPECIFIC.md` (what differs on purpose). A change to a shared feature goes to every service; a new difference goes into `SERVICE-SPECIFIC.md` in the same change.
-- `web/index.html`, `src/tokens.py` and `src/settings.py`, `src/updates.py` are copies shared with the other model services. Change one, copy it to the others, run `python tools/check_sync.py` in each repo.
+- `web/index.html`, `src/tokens.py`, `src/settings.py`, `src/updates.py` and `.dockerignore` are copies shared with the other model services. Change one, copy it to the others, run `python tools/check_sync.py` in each repo.
 - `POST /v1/speak` takes `text`, `voice`, `seed`, `temperature`, `stream` and returns WAV. Voices are a reference clip plus transcript in the `voices` volume (`src/voices.py`), added with `PUT /admin/voices/{name}` (admin password). `none` means no reference. `src/audio.py` is the same file as in the other two TTS services.
 - The model runs code from the Hub (`trust_remote_code`), so `model_revision` is a pinned commit: read a new commit before moving it. Text is split at 150 characters; streams make one piece per sentence; the cache keeps only seeded calls.
 - Needs an NVIDIA GPU. Measured on an RTX 4050 Laptop: 1.2 GiB loaded, 2.5 GiB peak, about 1.8 s of work per second of audio; the image is 17.6 GB. The tests use a fake model.

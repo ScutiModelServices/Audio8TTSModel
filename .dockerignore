@@ -1,5 +1,6 @@
-.venv
-.venv_audio8
+.git
+.venv*
+.uv_cache
 __pycache__
 .pytest_cache
 tests

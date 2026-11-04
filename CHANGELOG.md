@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Docker: `.dockerignore` keeps `.git`, `.venv`, tests and local state out of the build context (the same file in every model service).
 - First version: Audio8-TTS-Realistic-Air (0.6B, 23 languages, zero-shot voice cloning, Apache-2.0) served on the GPU, with the admin page, tokens (scope, rate limit, expiry), metrics, Settings card, update checks and file downloads shared with the other model services.
 - `POST /v1/speak` takes `text`, `voice`, `seed`, `temperature` and `stream` and returns a WAV file. `GET /v1/voices` lists the voices; `none` means no reference voice.
 - Voices are a reference clip plus its transcript: `PUT /admin/voices/{name}` (admin password) and `DELETE /admin/voices/{name}`, kept in the shared `voices` volume.
