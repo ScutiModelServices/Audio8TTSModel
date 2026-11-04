@@ -1,4 +1,4 @@
-# Audio8TTSModel
+# TTSAudio8Model
 
 Audio8-TTS-Realistic-Air text to speech with voice cloning (0.6B parameters, 23 languages, Apache-2.0), served over HTTP so projects send text instead of loading a model themselves. It has the same admin page, tokens, rate limits, metrics, settings and update checks as the other model services (`TTSParadeeModel` and `TTSPiperModel` are the same API shape with CPU engines).
 
