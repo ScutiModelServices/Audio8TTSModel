@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Admin **Try it** panel: descriptor-driven public API requests, live text streams, JSON/media output, status and latency, cancellation and redacted curl. Auth choice (b): pasted public token stays in memory; normal scope, limits and caches apply. Shared `web/playground.js` is copied across all model and tool services.
+
 - `run.bat`: runs `uv sync` directly; `python -m uv` failed when uv was installed only as a program (winget).
 - Docker: `.dockerignore` keeps `.git`, `.venv`, tests and local state out of the build context (the same file in every model service).
 - First version: Audio8-TTS-Realistic-Air (0.6B, 23 languages, zero-shot voice cloning, Apache-2.0) served on the GPU, with the admin page, tokens (scope, rate limit, expiry), metrics, Settings card, update checks and file downloads shared with the other model services.
