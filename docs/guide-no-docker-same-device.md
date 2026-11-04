@@ -1,4 +1,4 @@
-# Audio8TTSModel: without Docker, on Windows
+# TTSAudio8Model: without Docker, on Windows
 
 Run Audio8-TTS-Realistic-Air text to speech with voice cloning on an NVIDIA GPU (1.2 GiB loaded, 2.5 GiB peak) directly with Python: one process, no load balancer, listening on `127.0.0.1:9200`.
 
@@ -8,12 +8,12 @@ Run Audio8-TTS-Realistic-Air text to speech with voice cloning on an NVIDIA GPU 
 - Internet on the first start (about 2.5 GB of weights).
 
 ## Start
-Double-click `run.bat`, or run it in a terminal from `Audio8TTSModel\`. It runs `uv sync` to create or update `.venv`, then starts
+Double-click `run.bat`, or run it in a terminal from `TTSAudio8Model\`. It runs `uv sync` to create or update `.venv`, then starts
 `python src/app.py`. The first start downloads about 2.5 GB of weights.
 
 Linux or macOS:
 ```bash
-cd Audio8TTSModel
+cd TTSAudio8Model
 uv sync
 uv run python src/app.py
 ```

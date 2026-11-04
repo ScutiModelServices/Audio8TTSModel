@@ -1,4 +1,4 @@
-# Audio8TTSModel
+# TTSAudio8Model
 
 Audio8-TTS-Realistic-Air text to speech with voice cloning, served over HTTP on an NVIDIA GPU, behind the shared model-service admin page, tokens and settings. Port 9200, env prefix `AUDIO8_`, token prefix `audio8_`.
 

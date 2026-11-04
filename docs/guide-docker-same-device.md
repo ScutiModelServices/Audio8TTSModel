@@ -1,4 +1,4 @@
-# Audio8TTSModel: Docker Desktop on this PC
+# TTSAudio8Model: Docker Desktop on this PC
 
 Run Audio8-TTS-Realistic-Air text to speech with voice cloning on an NVIDIA GPU (1.2 GiB loaded, 2.5 GiB peak) in Docker Desktop on the machine you work on, so other programs on it can call it.
 
@@ -8,7 +8,7 @@ Run Audio8-TTS-Realistic-Air text to speech with voice cloning on an NVIDIA GPU 
 - Internet on the first start (about 2.5 GB of weights).
 
 ## Steps
-1. Configure. In `Audio8TTSModel/`:
+1. Configure. In `TTSAudio8Model/`:
    ```bash
    cp .env.example .env
    ```

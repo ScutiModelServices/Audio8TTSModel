@@ -288,7 +288,7 @@ dialog p { overflow-wrap: anywhere; }
 </dialog>
 <script>
 // Per-service configuration. The rest of this page is shared verbatim.
-const CONFIG = {title: "Audio8TTSModel", address: location.origin, threadLabel: "CPU threads", threadField: "num_thread", adminEnv: "AUDIO8_ADMIN_PASSWORD", replicasEnv: "AUDIO8_REPLICAS", extraTile: {label: "Parallel generations", field: "parallel"}, updates: true};
+const CONFIG = {title: "TTSAudio8Model", address: location.origin, threadLabel: "CPU threads", threadField: "num_thread", adminEnv: "AUDIO8_ADMIN_PASSWORD", replicasEnv: "AUDIO8_REPLICAS", extraTile: {label: "Parallel generations", field: "parallel"}, updates: true};
 
 const $ = id => document.getElementById(id);
 const storageKey = CONFIG.title + ":admin";

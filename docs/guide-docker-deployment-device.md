@@ -1,7 +1,7 @@
-# Audio8TTSModel: Docker on a deployment machine
+# TTSAudio8Model: Docker on a deployment machine
 
 Run Audio8-TTS-Realistic-Air text to speech with voice cloning on an NVIDIA GPU (1.2 GiB loaded, 2.5 GiB peak) on a separate always-on machine (default `lex@scutiserver1.local`, folder
-`/media/ZimaOS-HD/Apps/Audio8TTSModel`). Callers reach it over the published port.
+`/media/ZimaOS-HD/Apps/TTSAudio8Model`). Callers reach it over the published port.
 
 ## Requirements on the machine
 - Docker + Compose v2, and ssh access (root over ssh is refused; use the normal user).
@@ -9,7 +9,7 @@ Run Audio8-TTS-Realistic-Air text to speech with voice cloning on an NVIDIA GPU 
 - This service does not belong on a box without a GPU. The default `deploy.bat` target (`lex@scutiserver1.local`, ZimaOS) has none, so point `DEPLOY_HOST` and `DEPLOY_DIR` at the GPU machine (see step 1).
 
 ## 1. Publish the code (from your PC)
-Run `Audio8TTSModel\tools\deploy.bat`. Menu:
+Run `TTSAudio8Model\tools\deploy.bat`. Menu:
 
 | Option | Does |
 |---|---|
@@ -26,8 +26,8 @@ Keep your own target in the git-ignored `tools\deploy.local.bat` (copy `tools\de
 ## 2. First-time setup on the machine
 ```bash
 mkdir -p /media/ZimaOS-HD/Apps
-git clone -b live <your-repo-url> /media/ZimaOS-HD/Apps/Audio8TTSModel
-cd /media/ZimaOS-HD/Apps/Audio8TTSModel
+git clone -b live <your-repo-url> /media/ZimaOS-HD/Apps/TTSAudio8Model
+cd /media/ZimaOS-HD/Apps/TTSAudio8Model
 ```
 Create `.env` (deploy option 2 copies yours, or `cp .env.example .env` and edit):
 - `AUDIO8_ADMIN_PASSWORD`: a real password.
@@ -57,7 +57,7 @@ The first start downloads about 2.5 GB of weights into the `models` volume; `aud
 
 ## Updating
 ```bash
-cd /media/ZimaOS-HD/Apps/Audio8TTSModel
+cd /media/ZimaOS-HD/Apps/TTSAudio8Model
 git pull
 docker compose up -d --build
 docker compose restart audio8_lb

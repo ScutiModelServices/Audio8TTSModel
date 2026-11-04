@@ -1,4 +1,4 @@
-# Audio8TTSModel: the admin web UI
+# TTSAudio8Model: the admin web UI
 
 One page, `/admin/`, for tokens and CPU threads. It is the same for every way of running the service (Docker
 on the same device, Docker on a deployment device, no Docker). Only the address differs:

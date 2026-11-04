@@ -1,6 +1,6 @@
-# Deploying Audio8TTSModel
+# Deploying TTSAudio8Model
 
-Audio8TTSModel is one HTTP service (port 9200). It runs as `audio8` replicas behind an nginx load balancer,
+TTSAudio8Model is one HTTP service (port 9200). It runs as `audio8` replicas behind an nginx load balancer,
 `audio8_lb`. Callers use `http://<host>:9200`; they never reach a replica directly.
 
 ## Requirements
@@ -77,4 +77,4 @@ new one on its next request. Updating the service itself: `docker compose up -d 
 
 A plain publish (`tools\deploy.bat` option 1) only updates the `live` branch. For a release set `VERSION` (and
 `pyproject.toml` to the same number), commit, then run `tools\deploy.bat` option R or
-`py tools\publish_live.py --release`. `tools\make_zip.bat` then builds `zip_versions\Audio8TTSModel-<VERSION>.zip`.
+`py tools\publish_live.py --release`. `tools\make_zip.bat` then builds `zip_versions\TTSAudio8Model-<VERSION>.zip`.

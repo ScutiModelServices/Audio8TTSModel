@@ -10,4 +10,4 @@
 - Text over 150 characters is split into pieces before the model sees it; `stream: true` sends the WAV piece by piece.
 - Answer cache keeps only calls with a `seed` (`AUDIO8_CACHE_SIZE`, default 32, 0 = off; `X-Cache` header).
 - The model revision is pinned to one Hub commit because the model runs remote code (`AUDIO8_MODEL_REVISION`).
-- `tools/bench.py` times a service so `TTSPiperModel`, `TTSParadeeModel` and `Audio8TTSModel` can be compared.
+- `tools/bench.py` times a service so `TTSPiperModel`, `TTSParadeeModel` and `TTSAudio8Model` can be compared.

@@ -1,4 +1,4 @@
-# Audio8TTSModel: design notes
+# TTSAudio8Model: design notes
 
 Built from `TTSParadeeModel` (API shape, voices, WAV streaming, shared files) and `TEMImageModel` (GPU, torch, compose reservation). Behaviour is in `README.md`; the differences from the other services are listed in `.agents/skills/model-service-parity/SKILL.md`.
 
