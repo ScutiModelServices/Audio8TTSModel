@@ -1,0 +1,10 @@
+.venv
+.venv_audio8
+__pycache__
+.pytest_cache
+tests
+voices
+zip_versions
+tokens.json
+settings.json
+.env

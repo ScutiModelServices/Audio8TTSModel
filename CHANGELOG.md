@@ -1,0 +1,11 @@
+# Changelog
+
+## Unreleased
+
+- First version: Audio8-TTS-Realistic-Air (0.6B, 23 languages, zero-shot voice cloning, Apache-2.0) served on the GPU, with the admin page, tokens (scope, rate limit, expiry), metrics, Settings card, update checks and file downloads shared with the other model services.
+- `POST /v1/speak` takes `text`, `voice`, `seed`, `temperature` and `stream` and returns a WAV file. `GET /v1/voices` lists the voices; `none` means no reference voice.
+- Voices are a reference clip plus its transcript: `PUT /admin/voices/{name}` (admin password) and `DELETE /admin/voices/{name}`, kept in the shared `voices` volume.
+- Text over 150 characters is split into pieces before the model sees it; `stream: true` sends the WAV piece by piece.
+- Answer cache keeps only calls with a `seed` (`AUDIO8_CACHE_SIZE`, default 32, 0 = off; `X-Cache` header).
+- The model revision is pinned to one Hub commit because the model runs remote code (`AUDIO8_MODEL_REVISION`).
+- `tools/bench.py` times a service so `TTSPiperModel`, `TTSParadeeModel` and `Audio8TTSModel` can be compared.
