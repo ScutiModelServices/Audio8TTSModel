@@ -1,6 +1,6 @@
 # TTS_Audio8_Model: without Docker, on Windows
 
-Run Audio8-TTS-Realistic-Air text to speech with voice cloning on an NVIDIA GPU (1.2 GiB loaded, 2.5 GiB peak) directly with Python: one process, no load balancer, listening on `127.0.0.1:9200`.
+Run Audio8-TTS-Realistic-Air text to speech with voice cloning on an NVIDIA GPU (1.2 GiB loaded, 2.5 GiB peak) directly with Python: one process, no load balancer, listening on `127.0.0.1:29322`.
 
 ## Requirements
 - Windows with Python 3.11 or newer and uv (`winget install astral-sh.uv`).
@@ -25,7 +25,7 @@ On macOS there is no NVIDIA GPU, so this service cannot run there.
 | Variable | Default | Effect |
 |---|---|---|
 | `AUDIO8_HOST` | `127.0.0.1` | Bind address. Use `0.0.0.0` only if other devices must reach it. |
-| `AUDIO8_PORT` | `9200` | Port. |
+| `AUDIO8_PORT` | `29322` | Port. |
 | `AUDIO8_ADMIN_PASSWORD` | empty | Unlocks `/admin/` and requires tokens on every call but `/health`. Empty = no auth. |
 | `AUDIO8_WARM` | `1` | Load the model at start; with `0` the first request pays the load time. |
 | `AUDIO8_DEVICE` | `cuda` | `cpu` exists for tests only and is far too slow to use. |
@@ -35,16 +35,16 @@ Bash: `AUDIO8_ADMIN_PASSWORD=secret uv run python src/app.py`
 
 ## Check
 ```bash
-curl http://127.0.0.1:9200/health
+curl http://127.0.0.1:29322/health
 ```
-`ready` is `false` until the model has loaded. Then open `http://127.0.0.1:9200/admin/` (see [guide-web-ui.md](guide-web-ui.md)),
+`ready` is `false` until the model has loaded. Then open `http://127.0.0.1:29322/admin/` (see [guide-web-ui.md](guide-web-ui.md)),
 make a token, and try a call:
 ```bash
-curl -X POST http://127.0.0.1:9200/v1/speak -H "Content-Type: application/json" -H "X-Internal-Token: audio8_..." -d '{"text":"Hello from the model service."}' -o hello.wav
+curl -X POST http://127.0.0.1:29322/v1/speak -H "Content-Type: application/json" -H "X-Internal-Token: audio8_..." -d '{"text":"Hello from the model service."}' -o hello.wav
 ```
 
 ## Stop
-Ctrl+C in the terminal. Do not run this and the Docker stack together: both use port 9200.
+Ctrl+C in the terminal. Do not run this and the Docker stack together: both use port 29322.
 
 ## Tests
 `uv run pytest`.

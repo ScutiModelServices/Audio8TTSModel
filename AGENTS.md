@@ -1,6 +1,6 @@
 # TTS_Audio8_Model
 
-Audio8-TTS-Realistic-Air text to speech with voice cloning, served over HTTP on an NVIDIA GPU, behind the shared model-service admin page, tokens and settings. Port 9200, env prefix `AUDIO8_`, token prefix `audio8_`.
+Audio8-TTS-Realistic-Air text to speech with voice cloning, served over HTTP on an NVIDIA GPU, behind the shared model-service admin page, tokens and settings. Port 29322, env prefix `AUDIO8_`, token prefix `audio8_`.
 
 ## Agent instructions
 This file is the one instruction file for every coding agent; `CLAUDE.md` only imports it (`@AGENTS.md`). Edit this file, never `CLAUDE.md`.

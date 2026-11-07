@@ -1,7 +1,7 @@
 # Deploying TTS_Audio8_Model
 
-TTS_Audio8_Model is one HTTP service (port 9200). It runs as `tts_audio8_model` replicas behind an nginx load balancer,
-`tts_audio8_model_lb`. Callers use `http://<host>:9200`; they never reach a replica directly.
+TTS_Audio8_Model is one HTTP service (port 29322). It runs as `tts_audio8_model` replicas behind an nginx load balancer,
+`tts_audio8_model_lb`. Callers use `http://<host>:29322`; they never reach a replica directly.
 
 ## Ways to run it
 

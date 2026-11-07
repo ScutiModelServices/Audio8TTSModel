@@ -31,11 +31,11 @@ The model runs in this process on an **NVIDIA GPU** (torch, transformers). It ne
 ## Run
 
 ```bash
-docker compose up -d --build        # http://<host>:9200
-python tools/bench.py http://127.0.0.1:9200 --save out
+docker compose up -d --build        # http://<host>:29322
+python tools/bench.py http://127.0.0.1:29322 --save out
 ```
 
-Without Docker: `run.bat` (uv, listens on `127.0.0.1:9200`). The first start downloads about 2.5 GB. See `deployment.md`.
+Without Docker: `run.bat` (uv, listens on `127.0.0.1:29322`). The first start downloads about 2.5 GB. See `deployment.md`.
 
 ## Tests
 

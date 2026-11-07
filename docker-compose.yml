@@ -2,7 +2,7 @@
 # on the GPU (the 0.6B model plus its codec, about 2.5 GB of weights; measure the memory with nvidia-smi); the downloaded
 # weights are shared through the models volume, the reference voices through the voices volume.
 # Needs an NVIDIA GPU and the NVIDIA Container Toolkit (Docker Desktop on Windows: WSL2 backend with GPU support).
-# Start:  docker compose up -d --build          (callers use http://<host>:9200)
+# Start:  docker compose up -d --build          (callers use http://<host>:29322)
 # Scale:  AUDIO8_REPLICAS=2 docker compose up -d --build, then: docker compose restart tts_audio8_model_lb
 
 name: tts_audio8_model
@@ -29,7 +29,7 @@ services:
               count: 1
               capabilities: [gpu]
     healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:9200/health')"]
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:29322/health')"]
       interval: 15s
       timeout: 5s
       start_period: 300s
@@ -40,7 +40,7 @@ services:
     image: nginx:1.27-alpine
     restart: unless-stopped
     ports:
-      - "${AUDIO8_PORT:-9200}:9200"
+      - "${AUDIO8_PORT:-29322}:29322"
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
     depends_on:
@@ -59,7 +59,7 @@ volumes:
   tts_audio8_model_data:
     name: tts_audio8_model_data
 networks:
-  # Other stacks reach http://tts_audio8_model_lb:9200 by joining this network.
+  # Other stacks reach http://tts_audio8_model_lb:29322 by joining this network.
   tts_audio8_model:
     name: tts_audio8_model
   citadel:

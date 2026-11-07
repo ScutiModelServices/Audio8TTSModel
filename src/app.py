@@ -395,7 +395,7 @@ def main() -> None:
         client.num_thread = int(threads)
     app = create_app(client=client, admin_password=os.environ.get("AUDIO8_ADMIN_PASSWORD") or None,
                      tokens=store, config=config)
-    uvicorn.run(app, host=os.environ.get("AUDIO8_HOST", "127.0.0.1"), port=int(os.environ.get("AUDIO8_PORT", "9200")))
+    uvicorn.run(app, host=os.environ.get("AUDIO8_HOST", "127.0.0.1"), port=int(os.environ.get("AUDIO8_PORT", "29322")))
 
 
 if __name__ == "__main__":

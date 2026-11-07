@@ -1,5 +1,5 @@
 @echo off
-REM Starts the audio8 service on port 9200 (syncs .venv with uv on each run). The first start downloads about 2.5 GB of weights. Needs an NVIDIA GPU and a CUDA build of torch.
+REM Starts the audio8 service on port 29322 (syncs .venv with uv on each run). The first start downloads about 2.5 GB of weights. Needs an NVIDIA GPU and a CUDA build of torch.
 REM LABEL: Audio8TTS Service
 REM DESCRIPTION: Shared HTTP service that runs Audio8-TTS-Realistic-Air text to speech with voice cloning on the GPU for every project.
 cd /d "%~dp0"
