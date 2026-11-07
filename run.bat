@@ -29,7 +29,7 @@ if errorlevel 1 (
     pause
     exit /b 1
 )
-".venv\Scripts\python.exe" src/app.py
+".venv\Scripts\python.exe" src/app.py --dotenv
 pause
 exit /b 0
 
