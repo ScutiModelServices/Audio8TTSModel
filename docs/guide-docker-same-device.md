@@ -16,7 +16,7 @@ Run Audio8-TTS-Realistic-Air text to speech with voice cloning on an NVIDIA GPU 
    ```bash
    cp .env.example .env
    ```
-   Set `AUDIO8_ADMIN_PASSWORD` (empty = no auth and no admin page, fine for a local test). Leave `AUDIO8_PORT=29322`. Leave `AUDIO8_REPLICAS=1`.
+   Set `SERVICE_ADMIN_PASSWORD` (empty = no auth and no admin page, fine for a local test). Leave `SERVICE_PORT=29322`. Leave `SERVICE_REPLICAS=1`.
 2. Start:
    ```bash
    docker compose up -d --build
@@ -44,14 +44,14 @@ In `.env` next to `docker-compose.yml`:
 
 | Variable | Default | Effect |
 |---|---|---|
-| `AUDIO8_REPLICAS` | `1` | Number of `tts_audio8_model` containers. Read by Compose. |
-| `AUDIO8_PORT` | `29322` | Host port `tts_audio8_model_lb` publishes. |
-| `AUDIO8_ADMIN_PASSWORD` | empty | Password for `/admin/`. When set, every call except `/health` must send a token as `X-Internal-Token`. Empty = no auth. |
-| `AUDIO8_NUM_THREAD` | torch decides | Starting value for the CPU threads card (it only serves what runs on the CPU, such as reading the reference clip); a value saved on `/admin/` wins. Use the number of physical cores, not logical CPUs. |
+| `SERVICE_REPLICAS` | `1` | Number of `tts_audio8_model` containers. Read by Compose. |
+| `SERVICE_PORT` | `29322` | Host port `tts_audio8_model_lb` publishes. |
+| `SERVICE_ADMIN_PASSWORD` | empty | Password for `/admin/`. When set, every call except `/health` must send a token as `X-Internal-Token`. Empty = no auth. |
+| `SERVICE_NUM_THREAD` | torch decides | Starting value for the CPU threads card (it only serves what runs on the CPU, such as reading the reference clip); a value saved on `/admin/` wins. Use the number of physical cores, not logical CPUs. |
 
 On the **Settings** card of `/admin/` (saved in `settings.json` beside the tokens, shared by all replicas; a saved
-value beats the environment variable named in brackets): update check hours (`AUDIO8_UPDATE_CHECK_HOURS`, 6),
-in-flight cap (`AUDIO8_MAX_INFLIGHT`, 0 = 4), answers kept per replica (`AUDIO8_CACHE_SIZE`, 32, 0 = off; seeded calls only, at most 1 MB each), model revision (`AUDIO8_MODEL_REVISION`, restart; the pinned Hub commit), device (`AUDIO8_DEVICE`, restart, `cuda`), data type (`AUDIO8_DTYPE`, restart, `bfloat16`; the CPU needs `float32`), most audio tokens per piece (`AUDIO8_MAX_NEW_TOKENS`, restart, 1024) and load at start (`AUDIO8_WARM`, restart). Compose does not pass these;
+value beats the environment variable named in brackets): update check hours (`SERVICE_UPDATE_CHECK_HOURS`, 6),
+in-flight cap (`SERVICE_MAX_INFLIGHT`, 0 = 4), answers kept per replica (`SERVICE_CACHE_SIZE`, 32, 0 = off; seeded calls only, at most 1 MB each), model revision (`SERVICE_MODEL_REVISION`, restart; the pinned Hub commit), device (`SERVICE_DEVICE`, restart, `cuda`), data type (`SERVICE_DTYPE`, restart, `bfloat16`; the CPU needs `float32`), most audio tokens per piece (`SERVICE_MAX_NEW_TOKENS`, restart, 1024) and load at start (`SERVICE_WARM`, restart). Compose does not pass these;
 add the variable under `environment:` of `tts_audio8_model` to use one as a starting value.
 
 ## Daily use
@@ -75,13 +75,13 @@ python tools/bench.py http://127.0.0.1:29322 --save out
 
 | Symptom | Fix |
 |---|---|
-| `address already in use` on 29322 | Another copy (`run.bat`, or the same stack on another compose project) is running. Stop it or change `AUDIO8_PORT`. |
+| `address already in use` on 29322 | Another copy (`run.bat`, or the same stack on another compose project) is running. Stop it or change `SERVICE_PORT`. |
 | `/health` shows `ready: false` for minutes | First start: the weights are downloading or loading. Check `docker compose logs -f tts_audio8_model`. |
 | 401 Invalid token | The caller's token is missing or revoked; make one on `/admin/`. |
 | 503 `no GPU is visible here` | The container has no GPU. Enable GPU support in Docker Desktop and re-run the `nvidia-smi` check above. |
 | Container restarts in a loop | Out of GPU memory. Close other GPU programs. |
 | `tts_audio8_model_lb` never starts | No replica is healthy yet (first download, or out of memory). `docker compose logs tts_audio8_model`. |
-| Replicas restart in a loop | Out of GPU memory. Lower `AUDIO8_REPLICAS`, or check `docker compose logs tts_audio8_model` for `no GPU is visible`. |
+| Replicas restart in a loop | Out of GPU memory. Lower `SERVICE_REPLICAS`, or check `docker compose logs tts_audio8_model` for `no GPU is visible`. |
 | 403 "may not use voice" | The token's list on `/admin/` does not include that voice (or `none`, when `voice` is left out). |
 | 404 on `/v1/speak` | The voice is not served here. `GET /v1/voices` lists them. |
 | 422 on `format` or another field | Only `text`, `voice`, `seed`, `temperature` and `stream` exist; the reply is always WAV. |

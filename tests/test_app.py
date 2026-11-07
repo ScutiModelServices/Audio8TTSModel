@@ -236,7 +236,7 @@ def test_requests_over_the_in_flight_limit_get_429():
 
 
 def test_workers_are_read_only_and_admin_only(monkeypatch):
-    monkeypatch.setenv("AUDIO8_REPLICAS", "3")
+    monkeypatch.setenv("SERVICE_REPLICAS", "3")
     c = client(admin_password="admin")
     assert c.get("/admin/workers").status_code == 401
     assert c.get("/admin/workers", headers=ADMIN).json() == {"replicas": 3, "parallel": 1}
@@ -323,12 +323,12 @@ def test_warmup_is_optional():
 def test_main_builds_the_engine_from_settings(monkeypatch, tmp_path):
     import app as module
 
-    monkeypatch.setenv("AUDIO8_TOKENS_FILE", str(tmp_path / "tokens.json"))
-    monkeypatch.setenv("AUDIO8_NUM_THREAD", "2")
-    monkeypatch.setenv("AUDIO8_DEVICE", "cpu")
-    monkeypatch.setenv("AUDIO8_DTYPE", "float32")
-    monkeypatch.setenv("AUDIO8_MODEL_REVISION", "abc")
-    monkeypatch.setenv("AUDIO8_PORT", "9999")
+    monkeypatch.setenv("SERVICE_TOKENS_FILE", str(tmp_path / "tokens.json"))
+    monkeypatch.setenv("SERVICE_NUM_THREAD", "2")
+    monkeypatch.setenv("SERVICE_DEVICE", "cpu")
+    monkeypatch.setenv("SERVICE_DTYPE", "float32")
+    monkeypatch.setenv("SERVICE_MODEL_REVISION", "abc")
+    monkeypatch.setenv("SERVICE_PORT", "9999")
     seen, started = [], {}
     monkeypatch.setattr(module, "create_app", lambda client, **kwargs: seen.append(client) or "app")
     monkeypatch.setattr("uvicorn.run", lambda app, host, port: started.update(app=app, host=host, port=port))

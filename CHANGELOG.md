@@ -2,6 +2,31 @@
 
 ## Unreleased
 
+### Breaking: common service environment variables
+
+Service-owned environment variables now use `SERVICE_*`. Old names are no longer read.
+Rename old names once in your real `.env`, Compose `environment:` block, and CI/secret settings.
+
+| Old name | New name |
+|---|---|
+| `AUDIO8_ADMIN_PASSWORD` | `SERVICE_ADMIN_PASSWORD` |
+| `AUDIO8_CACHE_SIZE` | `SERVICE_CACHE_SIZE` |
+| `AUDIO8_DEVICE` | `SERVICE_DEVICE` |
+| `AUDIO8_DTYPE` | `SERVICE_DTYPE` |
+| `AUDIO8_HOST` | `SERVICE_HOST` |
+| `AUDIO8_MAX_INFLIGHT` | `SERVICE_MAX_INFLIGHT` |
+| `AUDIO8_MAX_NEW_TOKENS` | `SERVICE_MAX_NEW_TOKENS` |
+| `AUDIO8_MODEL_REVISION` | `SERVICE_MODEL_REVISION` |
+| `AUDIO8_NUM_THREAD` | `SERVICE_NUM_THREAD` |
+| `AUDIO8_PORT` | `SERVICE_PORT` |
+| `AUDIO8_REPLICAS` | `SERVICE_REPLICAS` |
+| `AUDIO8_TOKENS_FILE` | `SERVICE_TOKENS_FILE` |
+| `AUDIO8_UPDATE_CHECK_HOURS` | `SERVICE_UPDATE_CHECK_HOURS` |
+| `AUDIO8_VOICES_DIR` | `SERVICE_VOICES_DIR` |
+| `AUDIO8_WARM` | `SERVICE_WARM` |
+| `AUDIO8_WEB_DIR` | `SERVICE_WEB_DIR` |
+| `AUDIO8_WEIGHTS_MARKER` | `SERVICE_WEIGHTS_MARKER` |
+
 - Move the default service port from 9200 to 29322, including API replicas and the nginx load balancer. Update any explicit old port in your real `.env`, saved tool-service `backends.json` connections, and browser or MCP client configuration once. With Compose defaults, recreate the stack to use the new host and container ports; a custom host-port override stays as configured, while container ports still change to 29322.
 
 - Renamed `TTSAudio8Model` to `TTS_Audio8_Model`; Docker project, API image, services, load balancer and volumes now use `tts_audio8_model` names. Callers on `citadel_core` connect to `tts_audio8_model_lb` at the existing port.
@@ -23,6 +48,6 @@
 - `POST /v1/speak` takes `text`, `voice`, `seed`, `temperature` and `stream` and returns a WAV file. `GET /v1/voices` lists the voices; `none` means no reference voice.
 - Voices are a reference clip plus its transcript: `PUT /admin/voices/{name}` (admin password) and `DELETE /admin/voices/{name}`, kept in the shared `voices` volume.
 - Text over 150 characters is split into pieces before the model sees it; `stream: true` sends the WAV piece by piece.
-- Answer cache keeps only calls with a `seed` (`AUDIO8_CACHE_SIZE`, default 32, 0 = off; `X-Cache` header).
-- The model revision is pinned to one Hub commit because the model runs remote code (`AUDIO8_MODEL_REVISION`).
+- Answer cache keeps only calls with a `seed` (`SERVICE_CACHE_SIZE`, default 32, 0 = off; `X-Cache` header).
+- The model revision is pinned to one Hub commit because the model runs remote code (`SERVICE_MODEL_REVISION`).
 - `tools/bench.py` times a service so `TTS_Piper_Model`, `TTS_Paradee_Model` and `TTS_Audio8_Model` can be compared.

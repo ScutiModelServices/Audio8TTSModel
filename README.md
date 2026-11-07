@@ -22,11 +22,11 @@ The model runs in this process on an **NVIDIA GPU** (torch, transformers). It ne
 
 **Streaming.** With `"stream": true` the WAV is sent piece by piece while the rest is still being made, so the first audio arrives after the first piece. The header cannot know the length yet: its size fields are `0xFFFFFFFF` (read "until the connection ends"), and there is no `X-Audio-Seconds`. Players and `ffmpeg` read it; Python's `wave` module does not. Errors that can be known early (unknown voice, no speech in the text, model not loaded) are still normal HTTP errors; one after the first piece cuts the stream off.
 
-**Cache.** The *Answers kept per replica* setting (`AUDIO8_CACHE_SIZE`, default 32, 0 = off) keeps the last answers **for calls with a `seed`**; a call without one is random, so keeping it would never help. An answer over 1 MB is not kept. It is per replica and in memory, and emptied when the model is reloaded. Replacing a voice does not empty it: use a new voice name, or wait for the entries to age out.
+**Cache.** The *Answers kept per replica* setting (`SERVICE_CACHE_SIZE`, default 32, 0 = off) keeps the last answers **for calls with a `seed`**; a call without one is random, so keeping it would never help. An answer over 1 MB is not kept. It is per replica and in memory, and emptied when the model is reloaded. Replacing a voice does not empty it: use a new voice name, or wait for the entries to age out.
 
 ## Admin page
 
-`/admin/` (password `AUDIO8_ADMIN_PASSWORD`): tokens with voice scope, rate limit and expiry, usage numbers, CPU threads, the Settings card (update check hours, in-flight cap, answers kept, model revision, device, data type, token limit, load at start), and the Updates card. The page has no voice card yet; use the voice calls above (see `docs/guide-web-ui.md`). `/metrics` (admin password) is Prometheus text per token.
+`/admin/` (password `SERVICE_ADMIN_PASSWORD`): tokens with voice scope, rate limit and expiry, usage numbers, CPU threads, the Settings card (update check hours, in-flight cap, answers kept, model revision, device, data type, token limit, load at start), and the Updates card. The page has no voice card yet; use the voice calls above (see `docs/guide-web-ui.md`). `/metrics` (admin password) is Prometheus text per token.
 
 ## Run
 
@@ -51,7 +51,7 @@ The tests use a fake model, so they need no GPU. Before relying on a new revisio
 - One generation at a time per replica; extra calls wait, and more than the in-flight cap get 429. Reference and no-reference items cannot share a batch in the upstream processor, so there is no batching.
 - The rate limit is per replica.
 - Output is WAV only. Convert on the caller's side for MP3.
-- The model runs remote code from the Hub. The revision is pinned (`AUDIO8_MODEL_REVISION`) and the update check only finds a missing download; move the pin only to a commit you have read.
+- The model runs remote code from the Hub. The revision is pinned (`SERVICE_MODEL_REVISION`) and the update check only finds a missing download; move the pin only to a commit you have read.
 - Cloning a real person's voice needs their consent. Only the admin password can add voices.
 - Measured on an RTX 4050 Laptop (6 GB), bfloat16: the model uses about 1.2 GiB after loading and peaks at 2.1 to 2.5 GiB. It speaks slower than real time there (about 1.8 s of work per second of audio), so use `stream: true` for anything interactive; the first audio then arrives after about 3 s. The same seed gave byte-identical audio. Other GPUs will differ; `tools/bench.py` times yours. The image is 17.6 GB (CUDA libraries from the torch wheel).
 
