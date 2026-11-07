@@ -55,9 +55,18 @@ The tests use a fake model, so they need no GPU. Before relying on a new revisio
 - Cloning a real person's voice needs their consent. Only the admin password can add voices.
 - Measured on an RTX 4050 Laptop (6 GB), bfloat16: the model uses about 1.2 GiB after loading and peaks at 2.1 to 2.5 GiB. It speaks slower than real time there (about 1.8 s of work per second of audio), so use `stream: true` for anything interactive; the first audio then arrives after about 3 s. The same seed gave byte-identical audio. Other GPUs will differ; `tools/bench.py` times yours. The image is 17.6 GB (CUDA libraries from the torch wheel).
 
-
 ## Try it from the admin page
 
 Open `/admin/` and use **Try it** to call the public API with a service token held only in memory. Runs use normal token scopes, limits and caches; the panel shows HTTP status, latency, responses, cancellation and a curl equivalent with a token placeholder. See [the web UI guide](docs/guide-web-ui.md#try-it-send-a-real-request).
 
 Speak sends text, voice, seed and temperature to `POST /v1/speak`, then displays WAV audio with playback controls and a download. Audio8 has no speed or language request field. `GET /v1/voices` is filtered by the public token's allowed projects list; include `none` to allow speech without a reference voice. Only seeded calls are cached. An optional streaming request receives WAV chunks; the player is created when the bounded audio response finishes.
+
+## Documentation
+
+- [Purpose: input, output and what it is for](docs/purpose.md)
+- [Deployment](deployment.md)
+- [Changelog](CHANGELOG.md)
+- [Design notes](docs/design.md)
+- [Docker on another machine](docs/guide-docker-deployment-device.md)
+- [Docker on this PC](docs/guide-docker-same-device.md)
+- [Run without Docker](docs/guide-no-docker-same-device.md)
