@@ -8,7 +8,7 @@ Run Audio8-TTS-Realistic-Air text to speech with voice cloning on an NVIDIA GPU 
 - Internet on the first start (about 2.5 GB of weights).
 
 ## Start
-Double-click `run.bat`, or run it in a terminal from `TTSAudio8Model\`. It runs `uv sync` to create or update `.venv`, then starts
+Double-click `run.bat`, or run it in a terminal from `TTSAudio8Model\`. Choose **1 Run the service** in the menu, or run `run.bat run` to skip the menu. It runs `uv sync` to create or update `.venv`, then starts
 `python src/app.py`. The first start downloads about 2.5 GB of weights.
 
 Linux or macOS:
