@@ -1,6 +1,6 @@
-# TTSAudio8Model: design notes
+# TTS_Audio8_Model: design notes
 
-Built from `TTSParadeeModel` (API shape, voices, WAV streaming, shared files) and `TEMImageModel` (GPU, torch, compose reservation). Behaviour is in `README.md`; the differences from the other services are listed in `.agents/skills/model-service-parity/SKILL.md`.
+Built from `TTS_Paradee_Model` (API shape, voices, WAV streaming, shared files) and `IMG_TEM_Model` (GPU, torch, compose reservation). Behaviour is in `README.md`; the differences from the other services are listed in `.agents/skills/model-service-parity/SKILL.md`.
 
 Sources read: GitHub `edge0-ai/Audio8_TTS` (README, `guides/inference.md`, `audio8_tts_infer.py`, `requirements.txt`) and the Hub model `Edge0/Audio8-TTS-Realistic-Air` at commit `23c305cc013fde378edb459f538317043c993a74` (`processing_arktts.py`, model metadata).
 
@@ -9,9 +9,9 @@ Sources read: GitHub `edge0-ai/Audio8_TTS` (README, `guides/inference.md`, `audi
 - **Engine = the calls in `audio8_tts_infer.py`.** `AutoProcessor` + `AutoModel` with `trust_remote_code`, `generate(...)`, `decode_audio(codes)`. No pip package or server API exists upstream.
 - **Pinned revision.** The model runs remote code, so `model_revision` is a commit and the Updates card only reports a missing download.
 - **No `language` field.** The processor takes `text`, `reference_text`, `reference_audio` and nothing else; the language comes from the text.
-- **Voices = reference clip + transcript** in a shared `voices` volume. `none` = no reference. Upload is admin-only and JSON/base64 (no multipart dependency). Reference and no-reference items cannot share a batch upstream, so no batching: one call, one generation, one slot per replica.
+- **Voices = reference clip + transcript** in a shared `tts_audio8_model_voices` volume. `none` = no reference. Upload is admin-only and JSON/base64 (no multipart dependency). Reference and no-reference items cannot share a batch upstream, so no batching: one call, one generation, one slot per replica.
 - **Text splitting at 150 characters** (upstream advice), at sentence ends, then spaces, then hard cut for text without spaces (Chinese, Japanese). One torch generator per call, seeded, so a seed reproduces the whole call.
-- **Cache only for seeded calls**, like TEMImageModel; a seed-less call is random and never repeats.
+- **Cache only for seeded calls**, like IMG_TEM_Model; a seed-less call is random and never repeats.
 - **Deploy on the GPU PC, not ZimaOS.** Compose reserves one GPU. Callers get a connection error when the PC is off.
 
 ## Measured (RTX 4050 Laptop 6 GB, Docker Desktop WSL2)

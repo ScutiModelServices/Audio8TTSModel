@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Renamed `TTSAudio8Model` to `TTS_Audio8_Model`; Docker project, API image, services, load balancer and volumes now use `tts_audio8_model` names. Callers on `citadel_core` connect to `tts_audio8_model_lb` at the existing port.
+- Docker volume migration: existing volumes with old names are orphaned; renaming does not move data. Stop the old stack before copying; never use `down -v`. The commands below assume the previous default Compose project name; substitute actual volume names if `-p` or `COMPOSE_PROJECT_NAME` overrode it.
+  - `audio8_models` → `tts_audio8_model_models`: `docker volume inspect audio8_models && docker volume create tts_audio8_model_models && docker run --rm -v audio8_models:/from:ro -v tts_audio8_model_models:/to alpine:3.21 sh -c "cd /from && cp -a . /to/"`
+  - `audio8_voices` → `tts_audio8_model_voices`: `docker volume inspect audio8_voices && docker volume create tts_audio8_model_voices && docker run --rm -v audio8_voices:/from:ro -v tts_audio8_model_voices:/to alpine:3.21 sh -c "cd /from && cp -a . /to/"`
+  - `audio8_tokens` → `tts_audio8_model_data`: `docker volume inspect audio8_tokens && docker volume create tts_audio8_model_data && docker run --rm -v audio8_tokens:/from:ro -v tts_audio8_model_data:/to alpine:3.21 sh -c "cd /from && cp -a . /to/"`
+- To retain an old volume instead, set its top-level volume definition to `external: true` and `name: <old-volume-name>` in a local Compose override. Rollback: stop the renamed stack, restore the previous checkout and folder name, and restart the old stack with its original volumes; copy back newer data first if the renamed stack accepted writes.
+
 - `run.bat` loads `.env` from the service folder for a local run: it passes `--dotenv`, the service prints which variable names it loaded (never the values), and a real environment variable still wins. A plain `python src/app.py` and Docker never read `.env`.
 - Untracked folders now start with `.` or `_`: `zip_versions/` is `_zip_versions/`, `voices/` to `_voices/`. A local `voices`, `tem_code` or `zip_versions` folder from an older checkout needs renaming by hand.
 - `run.bat` is now a menu (run the service, deploy, build the release ZIP) and `run.bat run|deploy|zip` skips it. `tools/deploy.bat`, `tools/make_zip.bat` and `tools/deploy.local.example.bat` are gone; the local deploy target is `tools/deploy.local.ini` (copy `tools/deploy.local.example.ini`).
@@ -16,4 +23,4 @@
 - Text over 150 characters is split into pieces before the model sees it; `stream: true` sends the WAV piece by piece.
 - Answer cache keeps only calls with a `seed` (`AUDIO8_CACHE_SIZE`, default 32, 0 = off; `X-Cache` header).
 - The model revision is pinned to one Hub commit because the model runs remote code (`AUDIO8_MODEL_REVISION`).
-- `tools/bench.py` times a service so `TTSPiperModel`, `TTSParadeeModel` and `TTSAudio8Model` can be compared.
+- `tools/bench.py` times a service so `TTS_Piper_Model`, `TTS_Paradee_Model` and `TTS_Audio8_Model` can be compared.

@@ -1,6 +1,6 @@
-# TTSAudio8Model
+# TTS_Audio8_Model
 
-Audio8-TTS-Realistic-Air text to speech with voice cloning (0.6B parameters, 23 languages, Apache-2.0), served over HTTP so projects send text instead of loading a model themselves. It has the same admin page, tokens, rate limits, metrics, settings and update checks as the other model services (`TTSParadeeModel` and `TTSPiperModel` are the same API shape with CPU engines).
+Audio8-TTS-Realistic-Air text to speech with voice cloning (0.6B parameters, 23 languages, Apache-2.0), served over HTTP so projects send text instead of loading a model themselves. It has the same admin page, tokens, rate limits, metrics, settings and update checks as the other model services (`TTS_Paradee_Model` and `TTS_Piper_Model` are the same API shape with CPU engines).
 
 The model runs in this process on an **NVIDIA GPU** (torch, transformers). It needs a CUDA GPU and the NVIDIA Container Toolkit; it is not meant for a box without one. Model: [Edge0/Audio8-TTS-Realistic-Air](https://huggingface.co/Edge0/Audio8-TTS-Realistic-Air), code: [edge0-ai/Audio8_TTS](https://github.com/edge0-ai/Audio8_TTS).
 
